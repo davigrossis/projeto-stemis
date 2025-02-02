@@ -1,14 +1,13 @@
 <template>
   <div>
     <AppNavbar />
-    <HomeView />
+    <router-view path="$router.key" />
     <FooterComp />
   </div>
 </template>
 
 <script>
 import AppNavbar from "./components/NavbarComp.vue";
-import HomeView from "./views/HomeView.vue";
 import "./styles/global.css";
 import FooterComp from "./components/FooterComp.vue";
 
@@ -16,7 +15,6 @@ export default {
   name: "App",
   components: {
     AppNavbar,
-    HomeView,
     FooterComp,
   },
 };

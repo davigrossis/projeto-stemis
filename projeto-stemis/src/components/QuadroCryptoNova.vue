@@ -47,7 +47,7 @@ export default {
   },
   mounted() {
     this.buscarNovasMoedas();
-    setInterval(this.buscarNovasMoedas, 30000); // TEMPO DE ATUALIZAÇÃO
+    setInterval(this.buscarNovasMoedas, 15000); // TEMPO DE ATULIZAÇÃO
   },
   methods: {
     async buscarNovasMoedas() {

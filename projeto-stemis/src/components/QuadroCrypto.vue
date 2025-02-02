@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import { api } from "../services/api";
 
 export default {
   name: "QuadroCrypto",
@@ -46,7 +46,7 @@ export default {
   },
   mounted() {
     this.buscarMoedas();
-    setInterval(this.buscarMoedas, 30000); // TEMPORIZADOR PARA ATUALIZAR O QUADRO
+    setInterval(this.buscarMoedas, 300000); // TEMPORIZADOR PARA ATUALIZAR O QUADRO
   },
   methods: {
     async buscarMoedas() {
