@@ -11,7 +11,7 @@
         md="4"
         class="d-flex"
       >
-        <v-card @click="Analise(moeda.id)" class="ma-2 flex-grow-1" outlined>
+        <v-card @click="Analise(moeda)" class="ma-2 flex-grow-1" outlined>
           <v-card-title class="d-flex align-center">
             <v-img
               :src="moeda.image"
@@ -20,7 +20,7 @@
               max-width="40"
               max-height="40"
               contain
-            ></v-img>
+            />
             <div>
               <div class="title font-weight-bold">{{ moeda.name }}</div>
               <div class="subtitle-2">{{ moeda.symbol.toUpperCase() }}</div>
@@ -54,7 +54,7 @@ import { api } from "../services/api";
 export default {
   name: "CryptosComp",
   props: {
-    filtro: String, // PASSANDO PROPS COMO PARAMETRO
+    filtro: String,
   },
   data() {
     return {
@@ -63,9 +63,8 @@ export default {
   },
   computed: {
     moedasFiltradas() {
-      if (!this.filtro) {
-        return this.moedas;
-      }
+      if (!this.filtro) return this.moedas;
+
       const termo = this.filtro.toLowerCase();
       return this.moedas.filter(
         (moeda) =>
@@ -76,12 +75,12 @@ export default {
   },
   mounted() {
     this.buscarMoedas();
-    setInterval(this.buscarMoedas, 300000);
+    setInterval(this.buscarMoedas, 45000);
   },
   methods: {
     async buscarMoedas() {
       try {
-        const resposta = await api.get("/coins/markets", {
+        const { data } = await api.get("/coins/markets", {
           params: {
             vs_currency: "usd",
             order: "market_cap_desc",
@@ -91,13 +90,24 @@ export default {
             price_change_percentage: "24h",
           },
         });
-        this.moedas = resposta.data;
+        this.moedas = data;
       } catch (erro) {
         console.error("Erro ao buscar criptomoedas:", erro);
       }
     },
-    Analise(id) {
-      this.$router.push(`/analise/${id}`);
+    Analise(moeda) {
+      //PASSANDO PROPS PELO ROUTES
+      if (!moeda || !moeda.id) return;
+
+      this.$router.push({
+        path: `/analise/${moeda.id}`,
+        query: {
+          nome: moeda.name,
+          img: moeda.image,
+          preco: moeda.current_price,
+          variacao: moeda.price_change_percentage_24h,
+        },
+      });
     },
   },
 };
@@ -110,14 +120,9 @@ export default {
   min-height: 100vh;
 }
 
-h2 {
-  font-family: Arial, sans-serif;
-}
-
 .text-success {
   color: #4caf50;
 }
-
 .text-error {
   color: #f44336;
 }
