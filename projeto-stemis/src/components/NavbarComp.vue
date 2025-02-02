@@ -6,7 +6,7 @@
       </a>
       <div class="botoes">
         <a href="/"> <h1>Home</h1> </a>
-        <a href="/cryptos"> <h1>Crypos</h1> </a>
+        <a href="/cryptos"> <h1>Cryptos</h1> </a>
       </div>
     </nav>
   </header>

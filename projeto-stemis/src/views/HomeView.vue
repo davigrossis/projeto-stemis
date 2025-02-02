@@ -58,6 +58,7 @@ main {
 }
 .mid {
   display: flex;
+  justify-content: center;
   gap: 5vw;
 }
 </style>

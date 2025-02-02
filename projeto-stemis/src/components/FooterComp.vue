@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 footer {
-  height: 25vh;
+  height: 27vh;
   width: 100%;
   background-color: var(--color-background-nav);
   padding: 0vw 4vw 0vw 4vw;
