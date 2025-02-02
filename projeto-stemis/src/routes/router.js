@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import CryptoView from "../views/CryptoView.vue";
+import AnaliseView from "../views/AnaliseView.vue";
 
 const routes = [
   {
@@ -10,6 +11,10 @@ const routes = [
   {
     path: "/cryptos",
     component: CryptoView,
+  },
+  {
+    path: "/analise/:id",
+    component: AnaliseView,
   },
 ];
 

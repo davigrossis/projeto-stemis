@@ -11,7 +11,7 @@
         md="4"
         class="d-flex"
       >
-        <v-card class="ma-2 flex-grow-1" outlined>
+        <v-card @click="Analise(moeda.id)" class="ma-2 flex-grow-1" outlined>
           <v-card-title class="d-flex align-center">
             <v-img
               :src="moeda.image"
@@ -60,6 +60,16 @@ export default {
     return {
       moedas: [],
     };
+  },
+  setup() {
+    // ROTA PARA ANALISE
+    const router = useRouter();
+
+    const Analise = (id) => {
+      router.push(`/analise/${id}`);
+    };
+
+    return { Analise };
   },
   computed: {
     moedasFiltradas() {
