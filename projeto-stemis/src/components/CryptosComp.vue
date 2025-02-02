@@ -61,16 +61,6 @@ export default {
       moedas: [],
     };
   },
-  setup() {
-    // ROTA PARA ANALISE
-    const router = useRouter();
-
-    const Analise = (id) => {
-      router.push(`/analise/${id}`);
-    };
-
-    return { Analise };
-  },
   computed: {
     moedasFiltradas() {
       if (!this.filtro) {
@@ -105,6 +95,9 @@ export default {
       } catch (erro) {
         console.error("Erro ao buscar criptomoedas:", erro);
       }
+    },
+    Analise(id) {
+      this.$router.push(`/analise/${id}`);
     },
   },
 };
