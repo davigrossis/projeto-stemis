@@ -23,7 +23,7 @@
     </ul>
     <p v-else>Carregando...</p>
     <div class="ver-mais">
-      <a href="#" class="ver-mais-link">🔍 Ver Mais Moedas</a>
+      <a href="/cryptos" class="ver-mais-link">🔍 Ver Mais Moedas</a>
     </div>
   </div>
 </template>

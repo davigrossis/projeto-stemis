@@ -31,7 +31,6 @@ export default {
 
 <style scoped>
 main {
-  background-color: var(--color-background-home);
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
@@ -40,6 +39,7 @@ main {
 .top {
   display: flex;
   height: 70vh;
+  align-items: center;
 }
 .texto {
   display: flex;
