@@ -3,6 +3,7 @@
 ## ATENÇÃO
 
 - **O codigo pode demorar para puxar os dados da API**
+- **Moedas novas não possuem gráfico**
 
 ## Funcionalidades
 

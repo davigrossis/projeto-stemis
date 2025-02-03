@@ -75,7 +75,7 @@ export default {
   },
   mounted() {
     this.buscarMoedas();
-    setInterval(this.buscarMoedas, 15000);
+    setInterval(this.buscarMoedas, 300000);
   },
   methods: {
     async buscarMoedas() {
