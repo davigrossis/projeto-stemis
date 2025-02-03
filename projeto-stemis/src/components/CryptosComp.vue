@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="crypto-view pa-4">
-    <h2 class="text-center mb-6">📊 Todas as Criptomoedas</h2>
+    <h2 class="text-center mb-6">Todas as Criptomoedas</h2>
 
     <v-row>
       <v-col
@@ -75,7 +75,7 @@ export default {
   },
   mounted() {
     this.buscarMoedas();
-    setInterval(this.buscarMoedas, 45000);
+    setInterval(this.buscarMoedas, 15000);
   },
   methods: {
     async buscarMoedas() {
@@ -96,7 +96,7 @@ export default {
       }
     },
     Analise(moeda) {
-      //PASSANDO PROPS PELO ROUTES
+      // PASSANDO PROPS PELO ROUTES
       if (!moeda || !moeda.id) return;
 
       this.$router.push({
@@ -115,7 +115,9 @@ export default {
 
 <style scoped>
 .crypto-view {
-  background-color: #1e1e1e;
+  background-color: #222e35;
+  border: 4px solid #ffffff;
+  border-radius: 25px;
   color: white;
   min-height: 100vh;
 }

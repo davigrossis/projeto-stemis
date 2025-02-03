@@ -1,9 +1,9 @@
 <template>
   <div class="quadro-cripto">
-    <h2>📊 Moedas Populares</h2>
+    <h2>Moedas Populares</h2>
 
     <ul v-if="moedas.length">
-      <li v-for="moeda in moedas" :key="moeda.id">
+      <li v-for="moeda in moedas" :key="moeda.id" @click="analisarMoeda(moeda)">
         <div class="moeda-info">
           <img :src="moeda.image" :alt="moeda.name" class="moeda-icon" />
           <span>{{ moeda.name }} ({{ moeda.symbol.toUpperCase() }})</span>
@@ -29,7 +29,7 @@
     <p v-else>Carregando...</p>
 
     <div class="ver-mais">
-      <a href="/cryptos" class="ver-mais-link">🔍 Ver Mais Moedas</a>
+      <a href="/cryptos" class="ver-mais-link"> Ver Mais Moedas</a>
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
   },
   mounted() {
     this.buscarMoedas();
-    setInterval(this.buscarMoedas, 15000); // TEMPORIZADOR PARA ATUALIZAR O QUADRO
+    setInterval(this.buscarNovasMoedas, 300000);
   },
   methods: {
     async buscarMoedas() {
@@ -55,16 +55,27 @@ export default {
           params: {
             vs_currency: "usd",
             order: "market_cap_desc",
-            per_page: 5, // SELEÇÃO DE MOEDAS NO QUADRO
+            per_page: 5,
             page: 1,
             sparkline: false,
-            price_change_percentage: "24h", // TEMPO PARA BUSCAR CRYPTOS
+            price_change_percentage: "24h",
           },
         });
         this.moedas = resposta.data;
       } catch (erro) {
         console.error("Erro ao buscar criptomoedas:", erro);
       }
+    },
+    analisarMoeda(moeda) {
+      this.$router.push({
+        path: `/analise/${moeda.id}`,
+        query: {
+          nome: moeda.name,
+          img: moeda.image,
+          preco: moeda.current_price,
+          variacao: moeda.price_change_percentage_24h,
+        },
+      });
     },
   },
 };
@@ -73,11 +84,12 @@ export default {
 <style scoped>
 .quadro-cripto {
   width: 30vw;
-  background: #1e1e1e;
+  background: #222e35;
   color: white;
   padding: 2vh;
-  border-radius: 1vh;
-  box-shadow: 0px 0.5vh 1vh rgba(0, 0, 0, 0.2);
+  border-radius: 3vh;
+  border: 4px solid #ffffff;
+  box-shadow: 0px 0.5vh 1vh rgba(255, 255, 255, 0.2);
   font-family: Arial, sans-serif;
 }
 
@@ -87,7 +99,6 @@ export default {
   margin-bottom: 2vh;
 }
 
-/* Lista de moedas */
 ul {
   list-style: none;
   padding: 0;
@@ -99,6 +110,11 @@ li {
   align-items: center;
   padding: 2vh 0;
   border-bottom: 0.2vh solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+li:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 li:last-child {
@@ -140,7 +156,7 @@ li:last-child {
 }
 
 .ver-mais-link {
-  color: #ffcc00;
+  color: #179b5d;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.8vh;
@@ -148,5 +164,15 @@ li:last-child {
 
 .ver-mais-link:hover {
   text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .quadro-cripto {
+    width: 70vw;
+  }
+}
+@media (max-width: 480px) {
+  .quadro-cripto {
+    width: 100%;
+  }
 }
 </style>

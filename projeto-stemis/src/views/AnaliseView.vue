@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-4">
     <h2 class="text-center mb-6">
-      📊 Análise da Criptomoeda {{ moeda.name || "Carregando..." }}
+      Análise da Criptomoeda {{ moeda.name || "Carregando..." }}
     </h2>
 
     <v-card v-if="moeda" class="pa-4">
@@ -94,6 +94,9 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  color: #ffffff;
+}
 .text-success {
   color: #4caf50;
 }

@@ -49,42 +49,66 @@ export default {
 
 <style scoped>
 footer {
-  height: 27vh;
   width: 100%;
   background-color: var(--color-background-nav);
-  padding: 0vw 4vw 0vw 4vw;
+  padding: 2vh 4vw;
 }
+
 .footer-center {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   justify-content: space-around;
+  align-items: flex-start;
   padding: 2vh;
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #000;
+  flex-wrap: wrap;
+  gap: 2vh;
 }
+
 .fontes,
 .missao {
   display: flex;
   flex-direction: column;
   gap: 1vh;
 }
+
 .missao {
   max-width: 30vw;
 }
+
 .comunidade {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1vh;
 }
+
 .redes-sociais {
   display: flex;
   gap: 1vw;
 }
+
+@media (max-width: 768px) {
+  .footer-center {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .missao {
+    max-width: 90%;
+  }
+
+  .redes-sociais {
+    gap: 3vw;
+  }
+}
+
 .cookies {
   display: flex;
   justify-content: center;
   gap: 2vw;
   font-size: 12px;
+  text-align: center;
+  flex-wrap: wrap;
 }
 </style>

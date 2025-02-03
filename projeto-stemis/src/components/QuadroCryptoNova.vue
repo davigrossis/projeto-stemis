@@ -1,64 +1,85 @@
 <template>
   <div class="quadro-cripto">
-    <h2>🆕 Novas Listagens</h2>
+    <h2>Novas Listagens</h2>
+
     <ul v-if="moedas.length">
-      <li v-for="moeda in moedas" :key="moeda.symbol">
+      <li v-for="moeda in moedas" :key="moeda.id" @click="analisarMoeda(moeda)">
         <div class="moeda-info">
-          <span>{{ moeda.symbol }}</span>
+          <img :src="moeda.image" :alt="moeda.name" class="moeda-icon" />
+          <span>{{ moeda.name }} ({{ moeda.symbol.toUpperCase() }})</span>
         </div>
+
         <div class="moeda-preco">
-          <strong>${{ parseFloat(moeda.lastPrice).toFixed(4) }}</strong>
+          <strong> ${{ moeda.current_price.toFixed(4) }}</strong>
           <span
             :class="{
-              positivo: parseFloat(moeda.priceChangePercent) > 0,
-              negativo: parseFloat(moeda.priceChangePercent) < 0,
+              positivo: moeda.price_change_percentage_24h > 0,
+              negativo: moeda.price_change_percentage_24h < 0,
             }"
           >
-            ${{ parseFloat(moeda.priceChange).toFixed(4) }} ({{
-              parseFloat(moeda.priceChangePercent).toFixed(2)
+            ${{ moeda.price_change_24h.toFixed(4) }} ({{
+              moeda.price_change_percentage_24h.toFixed(2)
             }}%)
           </span>
         </div>
       </li>
     </ul>
+
     <p v-else>Carregando...</p>
+
     <div class="ver-mais">
-      <a href="/cryptos" class="ver-mais-link">🔍 Ver Mais Moedas</a>
+      <a href="/cryptos" class="ver-mais-link"> Ver Mais Moedas</a>
     </div>
   </div>
 </template>
 
 <script>
-import { apiBinance } from "../services/api";
+import { api } from "../services/api";
 
 export default {
   name: "QuadroCryptoNova",
   data() {
     return {
       moedas: [],
-      simbolosNovasMoedas: [
-        "ANIMEUSDT",
-        "TRUMPUSDT",
-        "SOLVUSDT",
-        "AIXBTUSDT",
-        "CGPTUSDT",
-      ],
     };
   },
   mounted() {
     this.buscarNovasMoedas();
-    setInterval(this.buscarNovasMoedas, 15000); // TEMPO DE ATULIZAÇÃO
+    setInterval(this.buscarNovasMoedas, 300000);
   },
   methods: {
     async buscarNovasMoedas() {
       try {
-        const resposta = await apiBinance.get("/ticker/24hr");
-        this.moedas = resposta.data.filter((moeda) =>
-          this.simbolosNovasMoedas.includes(moeda.symbol)
+        const resposta = await api.get("/coins/markets", {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 100,
+            page: 1,
+            sparkline: false,
+            price_change_percentage: "24h",
+          },
+        });
+
+        const moedasOrdenadas = resposta.data.sort(
+          (a, b) => a.market_cap - b.market_cap
         );
+
+        this.moedas = moedasOrdenadas.slice(0, 5);
       } catch (erro) {
         console.error("Erro ao buscar novas criptomoedas:", erro);
       }
+    },
+    analisarMoeda(moeda) {
+      this.$router.push({
+        path: `/analise/${moeda.id}`,
+        query: {
+          nome: moeda.name,
+          img: moeda.image,
+          preco: moeda.current_price,
+          variacao: moeda.price_change_percentage_24h,
+        },
+      });
     },
   },
 };
@@ -67,11 +88,12 @@ export default {
 <style scoped>
 .quadro-cripto {
   width: 30vw;
-  background: #1e1e1e;
+  background: #222e35;
   color: white;
   padding: 2vh;
-  border-radius: 1vh;
-  box-shadow: 0px 0.5vh 1vh rgba(0, 0, 0, 0.2);
+  border-radius: 3vh;
+  border: 4px solid #ffffff;
+  box-shadow: 0px 0.5vh 1vh rgba(255, 255, 255, 0.2);
   font-family: Arial, sans-serif;
 }
 
@@ -92,6 +114,11 @@ li {
   align-items: center;
   padding: 2vh 0;
   border-bottom: 0.2vh solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+li:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 li:last-child {
@@ -101,6 +128,12 @@ li:last-child {
 .moeda-info {
   display: flex;
   align-items: center;
+}
+
+.moeda-icon {
+  width: 3vh;
+  height: 3vh;
+  margin-right: 1vw;
 }
 
 .moeda-preco {
@@ -127,7 +160,7 @@ li:last-child {
 }
 
 .ver-mais-link {
-  color: #ffcc00;
+  color: #179b5d;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.8vh;
@@ -135,5 +168,15 @@ li:last-child {
 
 .ver-mais-link:hover {
   text-decoration: underline;
+}
+@media (max-width: 768px) {
+  .quadro-cripto {
+    width: 70vw;
+  }
+}
+@media (max-width: 480px) {
+  .quadro-cripto {
+    width: 100%;
+  }
 }
 </style>

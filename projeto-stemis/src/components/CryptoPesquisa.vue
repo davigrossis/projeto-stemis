@@ -5,7 +5,7 @@
       label="Pesquisar criptomoeda..."
       outlined
       clearable
-      class="mb-4"
+      class="mb-4 campo-branco"
       @input="emitirFiltro"
     ></v-text-field>
   </v-container>
@@ -21,8 +21,19 @@ export default {
   },
   methods: {
     emitirFiltro() {
-      this.$emit("filtrar-moedas", this.termo); //COMANDO PARA EMITIR PARA O FILHO
+      this.$emit("filtrar-moedas", this.termo); //EMITIR FILHO
     },
   },
 };
 </script>
+
+<style scoped>
+.campo-branco >>> .v-input__control {
+  background-color: white !important;
+  border: 1px solid black !important;
+}
+
+.campo-branco >>> input {
+  color: black !important;
+}
+</style>
